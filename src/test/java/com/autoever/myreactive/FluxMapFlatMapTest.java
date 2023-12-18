@@ -104,7 +104,9 @@ public class FluxMapFlatMapTest {
         //1개의 글자로 쪼개서, sort, distinct, line번호와 낱글자 출력
         Flux.fromIterable(stringList)
                 //word.split("")의 리턴타입 Array String[]
-                .flatMap(word -> Flux.fromArray(word.split("")))
+                //map() 사용 했다면 Flux<String[]>
+                //.map(word -> word.split(""))
+                .flatMap(word -> Flux.fromArray(word.split("")))  //Flux<String>
                 .sort()  //정렬
                 .distinct() //중복제거
                 .zipWith(range, (word,line) -> line + "=" + word)
