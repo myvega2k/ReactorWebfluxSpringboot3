@@ -37,6 +37,10 @@ public class LambdaTest {
 
     @Test
     void runnable() {
+        /*
+              class MyRunnabel implements Runnable{ }
+              new Thread(new MyRunnable());
+         */
         //1. Anonymous Inner Class 형태로  Runnable을 구현하기
         Thread t1 = new Thread(new Runnable() {
             @Override
@@ -45,6 +49,7 @@ public class LambdaTest {
             }
         });
         t1.start();
+
         //2. Lambda Expression
         Thread t2 = new Thread(() -> System.out.println("Lambda Expression"));
         t2.start();
@@ -62,6 +67,7 @@ public class LambdaTest {
 
     @Test
     void consumer() {
+        //1. Anonymous Inner Class 형태로 Consumer 구현
         //void accept(T t)
         customers.forEach(new Consumer<MyCustomer>() {
             @Override
@@ -70,7 +76,9 @@ public class LambdaTest {
             }
         });
         //2. Lambda Expression
+        System.out.println("===> Lambda Expression");
         customers.forEach(customer -> System.out.println(customer));
+
         System.out.println("===> Method Reference");
         //3. Method Reference
         customers.forEach(System.out::println);
@@ -102,10 +110,10 @@ public class LambdaTest {
     void emailList() {
         //MyCustomer의 email 주소만 꺼내서 List<String>을 반환하기
         //ctrl + alt + v
-        List<String> emailList = customers.stream() //Stream<MyCustomer>
-                //.map(customer -> customer.getEmail()) //Stream<String>
+        List<String> emailList = customers.stream() //List<MyCustomer> => Stream<MyCustomer>
+                //.map(customer -> customer.getEmail()) //Stream<MyCustomer> => Stream<String>
                 .map(MyCustomer::getEmail)
-                .collect(Collectors.toList());
+                .toList();  //Stream<String> => List<String>
        //emailList.forEach(email -> System.out.println(email));
         emailList.forEach(System.out::println);
 
@@ -113,6 +121,15 @@ public class LambdaTest {
                 .filter(customer -> customer.getId() > 102)  //Stream<MyCustomer>
                 .map(customer -> customer.getEmail().toUpperCase()) //Stream<String>
                 .forEach(System.out::println);
+
+        //MyCustomer의 ID 합계 계산하기
+        int sumOfId = customers.stream() //Stream<MyCustomer>
+                //mapToInt(ToIntFunction) ToIntFunction의 추상메서드 int applyAsInt(T value)
+                //.mapToInt(customer -> customer.getId())
+                .mapToInt(MyCustomer::getId) //IntStream
+                .sum();
+        System.out.println("sumOfId = " + sumOfId);
+
     }
 
 }
