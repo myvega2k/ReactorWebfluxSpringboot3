@@ -90,9 +90,10 @@ public class LambdaTest {
         //map()  <R> Stream<R> map(Function<? super T,? extends R> mapper)
         //flatMap() <R> Stream<R> flatMap(Function<? super T,? extends Stream<? extends R>> mapper)
         Stream<List<String>> listStream = customers.stream()
-                .map(cust -> cust.getPhoneNumbers());
+                .map(cust -> cust.getPhoneNumbers()); //Stream<List<String>>
+
         Stream<String> stringStream = customers.stream()
-                .flatMap(cust -> cust.getPhoneNumbers().stream());
+                .flatMap(cust -> cust.getPhoneNumbers().stream()); //Stream<String>
 
         List<List<String>> collect = customers.stream()
                 .map(cust2 -> cust2.getPhoneNumbers())
