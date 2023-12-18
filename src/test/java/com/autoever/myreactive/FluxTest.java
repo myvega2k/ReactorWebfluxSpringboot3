@@ -11,14 +11,15 @@ public class FluxTest {
     @Test
     public void justFlux() {
         Flux<String> stringFlux = Flux.just("Hello", "WebFlux").log();
+//        System.out.println("stringFlux = " + stringFlux);
         stringFlux.subscribe(val -> System.out.println("val = " + val));
 
-        //StepVerifier 사용
-        // .verifyComplete() 와 .expectComplete() + .verify()
+        //        //StepVerifier 사용
+//        // .verifyComplete() 와 .expectComplete() + .verify()
         StepVerifier.create(stringFlux)
                 .expectNext("Hello")
                 .expectNext("WebFlux")
-                .verifyComplete();
+                .verifyComplete();  //expectComplete() + verify()
 
         StepVerifier.create(stringFlux)
                 .expectNextCount(2)
@@ -47,7 +48,8 @@ public class FluxTest {
     @Test
     public void subscribeFlux() {
         Flux<String> stringFlux = Flux.just("Hello", "WebFlux","Boot").log();
-
+        
+        //Subscriber를 Inner class 형태로 구현
         stringFlux.subscribe(new Subscriber<String>() {
             @Override
             public void onSubscribe(Subscription s) {
