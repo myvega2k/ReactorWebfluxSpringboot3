@@ -97,4 +97,19 @@ public class FluxTest {
                 .expectNext(11,13,15,17,19)
                 .verifyComplete();
     }
+
+    @Test
+    public void thenFlux() {
+        var publish = Flux.just("Hello", "WebFlux","Boot")
+                .take(3)
+                .map(it -> {
+                    System.out.println("[Publisher] map : " + it);
+                    return it;
+                })
+                .then();
+        publish.subscribe(item -> System.out.println("[Subscriber] onNext : " + item),
+                e -> System.out.println("[Subscriber] onError : " + e.getMessage()),
+                () -> System.out.println("[Subscriber] onComplete"));
+
+    }
 }

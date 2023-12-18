@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.function.Function;
 
 public class FluxMapFlatMapTest {
-    List<MyCustomer> customerList = List.of(new MyCustomer("gildong", "gildong@gmail.com"),
+    List<MyCustomer> customerList = List.of(
+            new MyCustomer("gildong", "gildong@gmail.com"),
             new MyCustomer("dooly", "dooly@gmail.com"));
 
     @Test
@@ -22,7 +23,8 @@ public class FluxMapFlatMapTest {
         //public final <V> Flux<V> map(Function<? super T,? extends V> mapper)
         //Transform the items emitted by this Flux by applying a synchronous function to each item.
         Flux<MyCustomer> customerFlux = Flux.fromIterable(customerList)
-                .map(customer -> new MyCustomer(customer.getName().toUpperCase(), customer.getEmail().toUpperCase()))
+                .map(customer -> new MyCustomer(customer.getName().toUpperCase(),
+                                                customer.getEmail().toUpperCase()))
                 .log();
 
         customerFlux.subscribe(System.out::println);
@@ -56,7 +58,8 @@ public class FluxMapFlatMapTest {
     }
 
     private Function<MyCustomer, Publisher<? extends MyCustomer>> getFunction() {
-        return customer -> Mono.just(new MyCustomer(customer.getName().toUpperCase(), customer.getEmail().toUpperCase()));
+        return customer -> Mono.just(new MyCustomer(customer.getName().toUpperCase(),
+                                                    customer.getEmail().toUpperCase()));
     }
 
     @Test
@@ -72,10 +75,12 @@ public class FluxMapFlatMapTest {
         transformedFlux.subscribe(name -> System.out.print(name + " "));
 
         Flux.fromArray(new String[]{"Tom", "Melissa", "Steven", "Megan"})
+                //Flux<Mono<String>>
                 .map(name -> Mono.just(name.concat(" modified")))
                         .subscribe(System.out::println);
 
         Flux.fromArray(new String[]{"Tom", "Melissa", "Steven", "Megan"})
+                //Flux<String>
                 .flatMap(name -> Mono.just(name.concat(" modified")))
                 .subscribe(System.out::println);
 
@@ -83,7 +88,8 @@ public class FluxMapFlatMapTest {
 
     @Test
     public void flatMapZipWithTest() {
-        List<String> stringList = Arrays.asList("Olivia",
+        List<String> stringList = Arrays.asList(
+                "Olivia",
                 "Emma",
                 "Ava",
                 "Charlotte",

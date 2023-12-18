@@ -71,6 +71,11 @@ public class BackPressureTest {
                     request(limit);
                 }
             }
+
+            @Override
+            protected void hookOnCancel() {
+                super.hookOnCancel();
+            }
         });
     }
 
