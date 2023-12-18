@@ -107,7 +107,8 @@ public class FluxTest {
                     return it;
                 })
                 .then();
-        publish.subscribe(item -> System.out.println("[Subscriber] onNext : " + item),
+        publish.subscribe(
+                item -> System.out.println("[Subscriber] onNext : " + item),
                 e -> System.out.println("[Subscriber] onError : " + e.getMessage()),
                 () -> System.out.println("[Subscriber] onComplete"));
 
