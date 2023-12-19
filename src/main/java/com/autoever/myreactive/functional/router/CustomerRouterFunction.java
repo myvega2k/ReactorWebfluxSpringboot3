@@ -28,17 +28,20 @@ public class CustomerRouterFunction {
     @RouterOperations({
             @RouterOperation(path = "/router/r2customers", method = RequestMethod.GET,
                     beanClass = CustomerHandlerFunction.class, beanMethod = "getCustomers"),
+
             @RouterOperation(path = "/router/r2customers/{id}", method = RequestMethod.GET,
                     beanClass = CustomerHandlerFunction.class, beanMethod = "getCustomer",
                     operation = @Operation(operationId = "getCustomer",
                             parameters = {@Parameter(in = ParameterIn.PATH, name = "id")})
             ),
+
             @RouterOperation(path = "/router/r2customers", method = RequestMethod.POST,
                     beanClass = CustomerHandlerFunction.class, beanMethod = "saveCustomer",
                     operation = @Operation(operationId = "saveCustomer",
                             requestBody = @RequestBody(content =
                             @Content(schema = @Schema(implementation = Customer.class))))
             ),
+
             @RouterOperation(path = "/router/r2customers/{id}", method = RequestMethod.PUT,
                     beanClass = CustomerHandlerFunction.class, beanMethod = "updateCustomer",
                     operation = @Operation(operationId = "updateCustomer",
@@ -46,6 +49,7 @@ public class CustomerRouterFunction {
                             requestBody = @RequestBody(content =
                             @Content(schema = @Schema(implementation = Customer.class))))
             ),
+
             @RouterOperation(path = "/router/r2customers/{id}", method = RequestMethod.DELETE,
                     beanClass = CustomerHandlerFunction.class, beanMethod = "deleteCustomer",
                     operation = @Operation(operationId = "deleteCustomer",
