@@ -71,11 +71,12 @@ public class CustomerHandlerFunction {
         Long id = Long.parseLong(request.pathVariable("id"));
         return customerRepository.findById(id)
                 .flatMap(existCustomer ->
-                        ServerResponse.ok()
+                        ServerResponse.ok() //BodyBuilder
+                                // BodyBuilder의 부모클래스 HeadersBuilder
+                                // HeadersBuilder의 Mono<ServerResponse> build(Publisher<Void> voidPublisher)
                                 .build(customerRepository.delete(existCustomer)))
                 .switchIfEmpty(getError(id));
     }
-
 
     private Mono<ServerResponse> getError(Long id) {
         return Mono.error(

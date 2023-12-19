@@ -20,7 +20,8 @@ public class CustomerRouterFunction {
         return RouterFunctions.route(GET("/router/r2customers"), handlerFunction::getCustomers)
                 .andRoute(GET("/router/r2customers/{id}"), handlerFunction::getCustomer)
                 .andRoute(POST("/router/r2customers"), handlerFunction::saveCustomer)
-                .andRoute(PUT("/router/r2customers/{id}"), handlerFunction::updateCustomer);
+                .andRoute(PUT("/router/r2customers/{id}"), handlerFunction::updateCustomer)
+                .andRoute(DELETE("/router/r2customers/{id}"), handlerFunction::deleteCustomer);
 
     }
 }
