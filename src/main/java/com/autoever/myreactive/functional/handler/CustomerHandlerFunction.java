@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 @Component
 @RequiredArgsConstructor
-public class CustomerHandler {
+public class CustomerHandlerFunction {
     private final R2CustomerRepository customerRepository;
 
     public Mono<ServerResponse> getCustomers(ServerRequest serverRequest){
