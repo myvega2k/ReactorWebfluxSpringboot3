@@ -24,9 +24,10 @@ public class CustomAPIExceptionAdvice {
 //    }
     @ExceptionHandler(CustomAPIException.class)
     public ProblemDetail handlePostNotFoundException(CustomAPIException e) throws Exception{
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problemDetail.setTitle("Customer Not Found");
-        problemDetail.setType(new URI("http://localhost:8080/problems/post-not-found"));
+        problemDetail.setDetail(e.getMessage());
+        problemDetail.setType(new URI("http://localhost:8080/problems/customer-not-found"));
         problemDetail.setProperty("errorCategory", "Generic");
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
