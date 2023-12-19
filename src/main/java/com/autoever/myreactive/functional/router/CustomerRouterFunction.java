@@ -17,7 +17,8 @@ public class CustomerRouterFunction {
         //public static <T extends ServerResponse> RouterFunction<T>
         // route(RequestPredicate predicate, HandlerFunction<T> handlerFunction) {
         //HandlerFunction의 추상 메서드 Mono<ServerResponse> handle(ServerRequest request)
-        return RouterFunctions.route(GET("/router/r2customers"), handlerFunction::getCustomers);
+        return RouterFunctions.route(GET("/router/r2customers"), handlerFunction::getCustomers)
+                .andRoute(GET("/router/r2customers/{id}"), handlerFunction::getCustomer);
 
     }
 }
