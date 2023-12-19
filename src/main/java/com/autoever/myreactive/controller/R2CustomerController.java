@@ -81,7 +81,8 @@ public class R2CustomerController {
     public Mono<ResponseEntity<Void>> deleteCustomer(@PathVariable Long id) {
         return customerRepository.findById(id)
                 .flatMap(existCust ->
-                        customerRepository.delete(existCust).then(Mono.just(ResponseEntity.ok().<Void>build()))
+                        customerRepository.delete(existCust)
+                                .then(Mono.just(ResponseEntity.ok().<Void>build()))
                 ).defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
