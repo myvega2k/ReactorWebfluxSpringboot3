@@ -19,7 +19,8 @@ public class CustomerRouterFunction {
         //HandlerFunction의 추상 메서드 Mono<ServerResponse> handle(ServerRequest request)
         return RouterFunctions.route(GET("/router/r2customers"), handlerFunction::getCustomers)
                 .andRoute(GET("/router/r2customers/{id}"), handlerFunction::getCustomer)
-                .andRoute(POST("/router/r2customers"), handlerFunction::saveCustomer);
+                .andRoute(POST("/router/r2customers"), handlerFunction::saveCustomer)
+                .andRoute(PUT("/router/r2customers/{id}"), handlerFunction::updateCustomer);
 
     }
 }
