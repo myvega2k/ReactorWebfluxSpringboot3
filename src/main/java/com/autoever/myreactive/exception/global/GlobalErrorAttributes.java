@@ -6,6 +6,7 @@ import org.springframework.boot.web.reactive.error.DefaultErrorAttributes;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes {
             errorMap.put("message", customAPIException.getMessage());
             errorMap.put("status", customAPIException.getHttpStatus());
             errorMap.put("endpoint url", request.path());
+            errorMap.put("timestamp", LocalDateTime.now());
         }
         return errorMap;
     }
