@@ -48,6 +48,25 @@ public class CustomerHandlerFunction {
         ).switchIfEmpty(response406);
     }
 
+    public Mono<ServerResponse> updateCustomer(ServerRequest request) {
+        Long id = Long.parseLong(request.pathVariable("id"));
+        Mono<Customer> unUpdatedCustomerMono = request.bodyToMono(Customer.class);
+
+        Mono<Customer> updatedCustomerMono = unUpdatedCustomerMono.flatMap(customer ->
+                customerRepository.findById(id)
+                        .flatMap(existCustomer -> {
+                            existCustomer.setFirstName(customer.getFirstName());
+                            existCustomer.setLastName(customer.getLastName());
+                            return customerRepository.save(existCustomer);
+                        })
+        );
+        return updatedCustomerMono.flatMap(customer ->
+                ServerResponse.accepted()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(customer)
+        ).switchIfEmpty(getError(id));
+    }
+
 
 
     private Mono<ServerResponse> getError(Long id) {
