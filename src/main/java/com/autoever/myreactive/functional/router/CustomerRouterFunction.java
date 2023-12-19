@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 
 @Configuration
 public class CustomerRouterFunction {
@@ -18,7 +18,8 @@ public class CustomerRouterFunction {
         // route(RequestPredicate predicate, HandlerFunction<T> handlerFunction) {
         //HandlerFunction의 추상 메서드 Mono<ServerResponse> handle(ServerRequest request)
         return RouterFunctions.route(GET("/router/r2customers"), handlerFunction::getCustomers)
-                .andRoute(GET("/router/r2customers/{id}"), handlerFunction::getCustomer);
+                .andRoute(GET("/router/r2customers/{id}"), handlerFunction::getCustomer)
+                .andRoute(POST("/router/r2customers"), handlerFunction::saveCustomer);
 
     }
 }

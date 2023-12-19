@@ -41,7 +41,7 @@ public class CustomerHandlerFunction {
         return unSavedCustomerMono.flatMap(customer ->
                 customerRepository.save(customer)
                         .flatMap(savedCustomer ->
-                                ServerResponse.accepted()
+                                ServerResponse.accepted() //202
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(savedCustomer)
                         )
