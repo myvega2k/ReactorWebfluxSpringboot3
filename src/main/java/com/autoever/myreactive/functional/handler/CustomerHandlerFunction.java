@@ -36,6 +36,20 @@ public class CustomerHandlerFunction {
                 ).switchIfEmpty(getError(id));
     }
 
+    public Mono<ServerResponse> saveCustomer(ServerRequest request) {
+        Mono<Customer> unSavedCustomerMono = request.bodyToMono(Customer.class);
+        return unSavedCustomerMono.flatMap(customer ->
+                customerRepository.save(customer)
+                        .flatMap(savedCustomer ->
+                                ServerResponse.accepted()
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .bodyValue(savedCustomer)
+                        )
+        ).switchIfEmpty(response406);
+    }
+
+
+
     private Mono<ServerResponse> getError(Long id) {
         return Mono.error(
                 new CustomAPIException("Customer Not Found with id " + id, HttpStatus.NOT_FOUND));
