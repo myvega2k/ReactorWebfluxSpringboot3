@@ -33,7 +33,7 @@ public class CustomAPIExceptionHandler extends AbstractErrorWebExceptionHandler 
 
     private Mono<ServerResponse> renderException(ServerRequest request) {
         Map<String, Object> errorMap = this.getErrorAttributes(request, ErrorAttributeOptions.defaults());
-        errorMap.remove("requestId");
+        //errorMap.remove("requestId");
 
         System.out.println(errorMap.get("status").toString()); //Object -> String
         String statusMsg = errorMap.get("status").toString().substring(4); //400 BAD_REQUEST
