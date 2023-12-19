@@ -5,6 +5,7 @@ import com.autoever.myreactive.exception.CustomAPIException;
 import com.autoever.myreactive.repository.R2CustomerRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -50,7 +51,7 @@ public class R2CustomerController {
 
     @GetMapping("/{id}")
     public Mono<Customer> findCustomerById(@PathVariable Long id) {
-        return customerRepository.findById(id)
+        return customerRepository.findById(id) //Mono<Customer>
                 .switchIfEmpty(Mono.error(
                                 new CustomAPIException("Customer Not Found with id " + id, HttpStatus.NOT_FOUND)
                         )
@@ -62,6 +63,26 @@ public class R2CustomerController {
                 .switchIfEmpty(Mono.error(
                         new CustomAPIException("Customer Not Found with lastName " + lastName, HttpStatus.NOT_FOUND)
                 ));
+    }
+
+    @PutMapping("/{id}")
+    public Mono<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer){
+        Mono<Customer> customerMono = customerRepository.findById(id)
+                .flatMap(existCust -> {
+                    existCust.setFirstName(customer.getFirstName());
+                    existCust.setLastName(customer.getLastName());
+                    return customerRepository.save(existCust);
+                });
+        return customerMono.switchIfEmpty(Mono.error(
+                new CustomAPIException("Customer Not Found with id " + id, HttpStatus.NOT_FOUND)
+        ));
+    }
+    @DeleteMapping("/{id}")
+    public Mono<ResponseEntity<Void>> deleteCustomer(@PathVariable Long id) {
+        return customerRepository.findById(id)
+                .flatMap(existCust ->
+                        customerRepository.delete(existCust).then(Mono.just(ResponseEntity.ok().<Void>build()))
+                ).defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
 }
