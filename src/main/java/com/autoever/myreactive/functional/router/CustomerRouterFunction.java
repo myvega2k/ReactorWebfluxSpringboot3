@@ -2,7 +2,6 @@ package com.autoever.myreactive.functional.router;
 
 import com.autoever.myreactive.entity.Customer;
 import com.autoever.myreactive.functional.handler.CustomerHandlerFunction;
-import com.autoever.myreactive.functional.handler.CustomerHandlerFunctionFunction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
