@@ -41,7 +41,8 @@ public class R2CustomerController {
     public Mono<Customer> saveCustomer(@RequestBody Customer customer) {
     //tryEmitNext : Try emitting a non-null element, generating an onNext signal.
         return customerRepository.save(customer)
-                .doOnNext(savedCustomer -> sinksMany.tryEmitNext(savedCustomer))
+                //.doOnNext(savedCustomer -> sinksMany.tryEmitNext(savedCustomer))
+                .doOnNext(sinksMany::tryEmitNext)
                 .log();
     }
 }
