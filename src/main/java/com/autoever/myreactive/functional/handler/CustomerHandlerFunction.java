@@ -33,9 +33,13 @@ public class CustomerHandlerFunction {
                         .contentType(MediaType.APPLICATION_JSON)
                         //body(BodyInserter)
                         .body(BodyInserters.fromValue(customer)) //Mono<ServerResponse>
-                ).switchIfEmpty(Mono.error(
-                        new CustomAPIException("Customer Not Found with id " + id, HttpStatus.NOT_FOUND))
-                );
+                ).switchIfEmpty(getError(id));
     }
+
+    private Mono<ServerResponse> getError(Long id) {
+        return Mono.error(
+                new CustomAPIException("Customer Not Found with id " + id, HttpStatus.NOT_FOUND));
+    }
+
 
 }
